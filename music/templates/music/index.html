@@ -1,6 +1,6 @@
 <ol>
     {% for album in all_album %}
-    <li><a href="/music/{{ album.id }}">{{album.album_title}}
+    <li><a href="{% url 'music:details' album.id  %}">{{album.album_title}}
     </a>
     </li>
     {% endfor %}
