@@ -5,6 +5,10 @@ body{
 .navbar{
     border-radius: 0;
 }
+.navbar-inverse{
+    background-color:#4B0082;
+    border-color:#4B0082;
+}
 .navbar-brand{
     font-family:'Caveat',cursive;
 }
