@@ -6,8 +6,8 @@ app_name="music"
 
 urlpatterns=[
     # /music/
-    path('',views.index,name='index'),
+    path('',views.IndexView.as_view(),name='index'),
     #/music/id/
-    path('<int:album_id>/',views.details,name='details'),
-    path('<int:album_id>/favourite/',views.favourite,name='favourite')
+    path('<int:pk>/',views.DetailView.as_view(),name='details'),
+    path('album/add/$',views.AlbumCreate.as_view(),name='album_add'),
 ]
