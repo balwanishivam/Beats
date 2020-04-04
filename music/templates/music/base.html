@@ -1,7 +1,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Beats</title>
+    {% block title %}
+    {% endblock %} 
     {%load static%}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet"/>
@@ -43,7 +44,7 @@
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="">
-                        <a href="{% url 'music:index' %}">
+                        <a href="{% url 'music:album_add' %}">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;
                             Add Album
                         </a>
