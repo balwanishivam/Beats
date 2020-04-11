@@ -1,0 +1,17 @@
+
+{% extends 'music/base.html' %}
+{% block title %}Beats{%endblock%}
+
+{% block body%}
+{% if album_list%}
+<ol>
+    {% for album in album_list %}
+    <li><a href="{% url 'music:details' album.id  %}">{{album.album_title}}
+    </a>
+    </li>
+    {% endfor %}
+</ol>
+{%else%}
+    <h3>No Albums Found</h3>
+{%endif%}
+{% endblock %}
