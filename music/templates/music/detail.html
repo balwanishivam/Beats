@@ -1,21 +1,95 @@
 {% extends 'music/base.html' %}
-{% block title %}Beats{%endblock%}
-{% block body%}
-    <img src="{{ album.album_logo }}" width="100" height="100">
+{% block title %}{{ album }}{% endblock %}
+{% block albums_active %}active{% endblock %}
 
-    <h1>{{ album.album_title }}</h1>
-    <h3>{{ album.artist }}</h3>
-    {%  if error_message %}
-        <p>{{error_message}}</p>
-    {% endif %}
-        {% for song in album.song_set.all %}
-                {{song.song_title}}
-                {% if song.is_favourite %}
-                    <img src="data:image/png;base64,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"
-                    width="20" height="20"
-                    >
-                {% endif %}
-            </label><br>
-        {% endfor %}
-        
+{% block body %}
+<div class="container-fluid songs-container">
+
+    <div class="row">
+
+        <!-- Left Album Info -->
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a href="{% url 'music:details' album.id %}">
+                        {% if album.album_logo.url %}
+                            <img src="{{ album.album_logo.url }}" class="img-responsive">
+                        {% else %}
+                            <h3>No image to display</h3>
+                        {% endif %}
+                    </a>
+                    <h1>{{ album.album_title }} <small>{{ album.genre }}</small></h1>
+                    <h2>{{ album.artist }}</h2>
+                    <div class="text-center">
+                    <a href='{% url 'music:album_update' album.id %}'
+                    <button class="btn btn-primary" type="button"> Update Album</button>
+                    </a>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Song Info -->
+        <div class="col-sm-8 col-md-9">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                <li role="presentation" class="active"><a href="{% url 'music:details' album.id %}">View All</a></li>
+                <li role="presentation"><a href="#">Add New Song</a></li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <h3>All Songs</h3>
+
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Audio File</th>
+                            <th>Favorite</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for song in album.song_set.all %}
+                            <tr>
+                                <td>{{ song.song_title }}</td>
+                                <td>
+                                    <a target="_blank" href="#">
+                                        <button type="button" class="btn btn-success btn-xs">
+                                            <span class="glyphicon glyphicon-play"></span>&nbsp; Play
+                                        </button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
+                                </td>
+                                <td>
+                                    <form action="#" method="post" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="song_id" value="{{ song.id }}" />
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 {% endblock %}
