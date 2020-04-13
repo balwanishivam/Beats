@@ -12,16 +12,17 @@ class Album(models.Model):
         return reverse('music:details',kwargs={"pk":self.pk})
 
     def __str__(self):
-        return self.artist+'=>'+self.album_title
+        return self.album_title
 
 class Song(models.Model):
-    album=models.ForeignKey(Album,on_delete=models.CASCADE)
-    file_type=models.CharField(max_length=10)
-    song_title=models.CharField(max_length=50)
-    is_favourite=models.BooleanField(default=False)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE,null=True)
+    song_title = models.CharField(max_length=100)
+    audio_file = models.FileField(upload_to='mp3/', blank=True)
+    is_favourite = models.BooleanField(default=False)
+
     def __str__(self):
-        return self.song_title+'.'+self.file_type
- 
+        return self.song_title
+
 
 
 # Create your models here.
