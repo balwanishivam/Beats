@@ -15,7 +15,7 @@ urlpatterns=[
     path('album/add/',views.AlbumCreate.as_view(),name='album_add'),
     path('album/<int:pk>/',views.AlbumUpdate.as_view(),name='album_update'),
     path('album/<int:pk>/delete',views.AlbumDelete.as_view(),name='album_delete'),
-    # path('<int:album_id>/create_song/', views.create_song, name='create_song'),
+    path('album/<int:pk>/create_song/', views.SongCreate.as_view(), name='create_song'),
     # path('<int:album_id>/delete_song/<int:song_id>/', views.delete_song, name='delete_song'),
     # path('<int:album_id>/favorite_album/', views.favorite_album, name='favorite_album'),
 
