@@ -99,10 +99,6 @@ class LogoutView(View):
         logout(request)
         return redirect(reverse('music:login_user'))
 
-# class Song_Detail(DetailView):
-#     model=Song
-#     template_name='music/song_detail.html'
-
 
 class SongCreate(View):
     form_class=SongCreateForm
@@ -125,10 +121,12 @@ class SongCreate(View):
 
 
 
-class AlbumUpdate(UpdateView):
+class SongUpdate(UpdateView):
     model=Album
-    fields=['artist','album_title','genre','album_logo']
+    fields=['album','song_title','audio_file']
 
-class AlbumDelete(DeleteView):
+class SongDelete(DeleteView):
     model=Album
-    success_url=reverse_lazy('music:index')
+    def get_success_url(self,request):
+        return redirect(reverse('music:details',kwargs={'pk':pk}))
+    

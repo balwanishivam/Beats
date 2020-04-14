@@ -13,7 +13,7 @@
                 <div class="panel-body">
                     <a href="{% url 'music:details' album.id %}">
                         {% if album.album_logo.url %}
-                            <img src="{{ album.album_logo.url }}" class="img-responsive">
+                            <img src="{{ album.album_logo.url | default_if_none:'#' }}" class="img-responsive">
                         {% else %}
                             <h3>No image to display</h3>
                         {% endif %}
@@ -59,11 +59,10 @@
                             <tr>
                                 <td>{{ song.song_title }}</td>
                                 <td>
-                                    <a target="_blank" href="#">
+                                        <a target="_blank" href="{{ song.audio_file.url | default_if_none:'#' }}"></a>
                                         <button type="button" class="btn btn-success btn-xs">
                                             <span class="glyphicon glyphicon-play"></span>&nbsp; Play
-                                        </button>
-                                    </a>
+                                        </a>
                                 </td>
                                 <td>
                                     <a href="#" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
