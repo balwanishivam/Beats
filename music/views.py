@@ -6,23 +6,31 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login,logout
 from .forms import *
 from django.http import HttpResponseRedirect
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class IndexView(ListView):
     template_name='music/index.html'
     context_object_name='album_list'
-
+    model=Album
     def get_queryset(self):
-        return Album.objects.all()
+        qs = super().get_queryset()
+        user = self.request.user
+        if user is None:
+            return qs
+        return qs.filter(user=user)
 
 class DetailView(DetailView):
     model=Album
     template_name='music/detail.html'
 
-class AlbumCreate(CreateView):
-    model=Album
+
+class AlbumCreate(LoginRequiredMixin, CreateView):
+    model = Album
     fields=['artist','album_title','genre','album_logo']
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 class AlbumUpdate(UpdateView):
     model=Album
@@ -80,7 +88,7 @@ class LoginView(View):
             else:
                 return render(request, 'music/login.html', {'error_message': 'Your account has been disabled'})
         else:
-            return render(request, 'music/login.html', {'error_message': 'Invalid login'})
+            return render(request, 'music/login.html', {'form':form,'error_message': 'Invalid login'})
         return render(request,self.template_name,{'form':form})
 
 class LogoutView(View):
@@ -89,7 +97,7 @@ class LogoutView(View):
     def get(self,request):
         form=self.form_class(None)
         logout(request)
-        return render(request,self.template_name,{'form':form})
+        return redirect(reverse('music:login_user'))
 
 # class Song_Detail(DetailView):
 #     model=Song
