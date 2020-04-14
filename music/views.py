@@ -8,6 +8,8 @@ from .forms import *
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+MUSIC_FILE_TYPES = ['mp3','wav']
+
 class IndexView(ListView):
     template_name='music/index.html'
     context_object_name='album_list'
@@ -99,34 +101,43 @@ class LogoutView(View):
         logout(request)
         return redirect(reverse('music:login_user'))
 
+# class Song_Detail(DetailView):
+#     model=Song
+#     template_name='music/song_detail.html'
 
-class SongCreate(View):
-    form_class=SongCreateForm
-    template_name='music/song_form.html'
+
+# class SongCreate(View):
+#     form_class=SongCreateForm
+#     template_name='music/song_form.html'
     
-    def get(self,request,pk):
-        form=self.form_class(None)
-        return render(request,self.template_name,{'form':form})
+#     def get(self,request,pk):
+#         form=self.form_class(None)
+#         return render(request,self.template_name,{'form':form})
 
-    def post(self,request,pk):
-        form=self.form_class(request.POST)
-        if form.is_valid():
-            song=form.save(commit=False)
-            album= Album.objects.get(id=pk)
-            song.album=album
-            song.save()
-            return redirect(reverse('music:details', kwargs={'pk': pk}))
-        else:
-            return render(request,self.template_name,{'form':form})
+#     def post(self,request,pk):
+#         form=self.form_class(request.POST)
+#         if form.is_valid():
+#             song=form.save(commit=False) 
+#             album= Album.objects.get(id=pk)
+#             song.album=album
+#             song.audio_file=request.FILES['audio_file']
+#             song.save()
+#             return redirect(reverse('music:details', kwargs={'pk': pk}))
+#         else:
+#             return render(request,self.template_name,{'form':form})
 
 
+class SongCreate(CreateView):
+    model = Song
+    fields = ['user','album', 'song_title', 'audio_file']
+    success_url = reverse_lazy('music:index')
 
-class SongUpdate(UpdateView):
-    model=Album
-    fields=['album','song_title','audio_file']
+            
 
-class SongDelete(DeleteView):
-    model=Album
-    def get_success_url(self,request):
-        return redirect(reverse('music:details',kwargs={'pk':pk}))
-    
+# class AlbumUpdate(UpdateView):
+#     model=Album
+#     fields=['artist','album_title','genre','album_logo']
+
+# class SongDelete(DeleteView):
+#     model=Song
+#     success_url=reverse_lazy('music:index')

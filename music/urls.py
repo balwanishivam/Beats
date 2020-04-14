@@ -13,12 +13,12 @@ urlpatterns=[
     path('<int:pk>/',views.DetailView.as_view(),name='details'),
     # path('<int:pk>/favorite/', views.favorite, name='favorite'),
     # path('songs/<str:filter_by>/', views.songs, name='songs'),
-    path('add/',views.AlbumCreate.as_view(),name='album_add'),
-    path('<int:pk>/',views.AlbumUpdate.as_view(),name='album_update'),
-    path('<int:pk>/delete',views.AlbumDelete.as_view(),name='album_delete'),
+    path('album/add/',views.AlbumCreate.as_view(),name='album_add'),
+    path('album/<int:pk>/',views.AlbumUpdate.as_view(),name='album_update'),
+    path('album/<int:pk>/delete',views.AlbumDelete.as_view(),name='album_delete'),
     path('album/<int:pk>/create_song/', views.SongCreate.as_view(), name='create_song'),
-    #path('<int:pk>/delete_song/<int:song_id>/', views.SongDelete.as_view(), name='delete_song'),
-    #path('<int:album_id>/favorite_album/', views.favorite_album, name='favorite_album'),
+    #path('<int:album_id>/delete_song/<int:song_id>/', SongDelete.as_view(), name='delete_song'),
+    # path('<int:album_id>/favorite_album/', views.favorite_album, name='favorite_album'),
 
 ]
 urlpatterns += staticfiles_urlpatterns()
